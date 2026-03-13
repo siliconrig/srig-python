@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flashbay"
+version = "0.1.1"
+description = "Python SDK and pytest fixtures for flashbay hardware-in-the-loop testing"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "RAWS Consulting" }]
+keywords = ["embedded", "testing", "hardware-in-the-loop", "HIL", "pytest", "MCU"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Testing",
+    "Topic :: System :: Hardware",
+]
+dependencies = [
+    "websockets>=13.0,<15",
+    "httpx>=0.27,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+]
+
+[project.urls]
+Homepage = "https://flashbay.dev"
+Documentation = "https://flashbay.dev/docs/guides/python-sdk"
+Repository = "https://github.com/flashbay-dev/fbay-python"
+
+[project.entry-points.pytest11]
+flashbay = "flashbay.plugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flashbay"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 99
