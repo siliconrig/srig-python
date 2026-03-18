@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "flashbay"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Python SDK and pytest fixtures for flashbay hardware-in-the-loop testing"
 readme = "README.md"
 license = "MIT"
@@ -39,6 +39,9 @@ Repository = "https://github.com/flashbay-dev/fbay-python"
 
 [project.entry-points.pytest11]
 flashbay = "flashbay.plugin"
+
+[tool.hatch.version]
+source = "vcs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flashbay"]
