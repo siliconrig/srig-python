@@ -110,14 +110,14 @@ class Session:
     # -- internal -------------------------------------------------------------
 
     def _wait_flash(self, timeout: float) -> None:
-        """Poll session info until the board is back in 'active' state."""
+        """Poll session info until the board is done flashing."""
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             data = self.info()
-            status = data.get("status", "")
-            if status == "active":
+            state = data.get("state", "")
+            if state in ("idle", "active"):
                 return
-            if status == "error":
-                raise FlashError(f"Flash failed: {data.get('error', 'unknown')}")
+            if state in ("error", "ended"):
+                raise FlashError(f"Flash failed: {data.get('end_reason', 'unknown')}")
             time.sleep(_FLASH_POLL_INTERVAL)
         raise FlashError(f"Flash did not complete within {timeout}s")

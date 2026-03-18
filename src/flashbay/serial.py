@@ -1,5 +1,6 @@
 """Serial interface over WebSocket."""
 
+import base64
 import json
 import re
 import threading
@@ -24,6 +25,7 @@ class Serial:
         self._buf: deque[str] = deque()
         self._lock = threading.Lock()
         self._closed = False
+        self._error: Exception | None = None
 
         headers = {"X-API-Key": api_key}
         self._ws = ws_sync.connect(ws_url, additional_headers=headers)
@@ -59,6 +61,7 @@ class Serial:
         """Read until *pattern* appears in the accumulated output.
 
         Returns everything up to and including the matched text.
+        Data after the match is preserved in the buffer for subsequent reads.
         """
         collected: list[str] = []
         deadline = time.monotonic() + timeout
@@ -73,12 +76,20 @@ class Serial:
             full = "".join(collected)
             m = regex.search(full)
             if m:
+                # Put unmatched remainder back into the buffer.
+                remainder = full[m.end():]
+                if remainder:
+                    with self._lock:
+                        self._buf.appendleft(remainder)
                 return full[: m.end()]
             time.sleep(0.05)
 
         full = "".join(collected)
+        extra = ""
+        if self._error is not None:
+            extra = f" (reader thread died: {self._error})"
         raise SerialTimeout(
-            f"Pattern {pattern!r} not found within {timeout}s. "
+            f"Pattern {pattern!r} not found within {timeout}s.{extra} "
             f"Received so far: {full[-200:]!r}"
         )
 
@@ -118,7 +129,13 @@ class Serial:
                 except (json.JSONDecodeError, TypeError):
                     continue
                 if msg.get("type") == "serial_data":
+                    raw_data = msg.get("data", "")
+                    try:
+                        text = base64.b64decode(raw_data).decode("utf-8", errors="replace")
+                    except Exception:
+                        text = raw_data
                     with self._lock:
-                        self._buf.append(msg.get("data", ""))
-        except Exception:
-            pass
+                        self._buf.append(text)
+        except Exception as exc:
+            if not self._closed:
+                self._error = exc
