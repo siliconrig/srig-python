@@ -9,13 +9,13 @@ from collections import deque
 
 import websockets.sync.client as ws_sync
 
-from flashbay.exceptions import SerialTimeout
+from siliconrig.exceptions import SerialTimeout
 
 _WS_CLOSE_TIMEOUT = 3
 
 
 class Serial:
-    """WebSocket-backed serial console for a flashbay session.
+    """WebSocket-backed serial console for a siliconrig session.
 
     Connects to the coordinator's serial proxy and exposes a synchronous
     send/read/expect API suitable for pytest tests.

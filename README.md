@@ -1,19 +1,19 @@
-# flashbay
+# siliconrig
 
-Python SDK for [flashbay](https://flashbay.dev) — remote access to MCU development boards.
+Python SDK for [siliconrig](https://siliconrig.dev) — remote access to MCU development boards.
 
 Use it in scripts, automation, or as a pytest plugin for hardware-in-the-loop testing.
 
 ## Install
 
 ```bash
-pip install flashbay
+pip install siliconrig
 ```
 
 ## Quick start
 
 ```python
-from flashbay import Client
+from siliconrig import Client
 
 client = Client()
 
@@ -27,7 +27,7 @@ with client.session(board="esp32s3") as session:
 Or use the `Board` shorthand:
 
 ```python
-from flashbay import Board
+from siliconrig import Board
 
 with Board("esp32-s3", firmware="build/app.bin") as board:
     board.expect("System ready", timeout=5)
@@ -41,7 +41,7 @@ The package includes a pytest plugin that registers automatically. Use it with c
 
 ```python
 import pytest
-from flashbay import Board
+from siliconrig import Board
 
 @pytest.fixture
 def board():
@@ -52,10 +52,10 @@ def test_boot_ok(board):
     assert board.expect("System ready", timeout=5)
 ```
 
-Or use the built-in `flashbay_board` fixture via CLI options:
+Or use the built-in `siliconrig_board` fixture via CLI options:
 
 ```bash
-pytest --flashbay-board esp32s3 --flashbay-firmware build/app.bin tests/hil/
+pytest --siliconrig-board esp32s3 --siliconrig-firmware build/app.bin tests/hil/
 ```
 
 ## Authentication
@@ -63,7 +63,7 @@ pytest --flashbay-board esp32s3 --flashbay-firmware build/app.bin tests/hil/
 Set your API key via environment variable:
 
 ```bash
-export FLASHBAY_API_KEY=key_...
+export SRIG_API_KEY=key_...
 ```
 
 Or pass it directly:
@@ -74,5 +74,5 @@ client = Client(api_key="key_...")
 
 ## Documentation
 
-- [Python SDK guide](https://flashbay.dev/docs/guides/python-sdk)
-- [CI/CD integration](https://flashbay.dev/docs/guides/cicd)
+- [Python SDK guide](https://siliconrig.dev/docs/guides/python-sdk)
+- [CI/CD integration](https://siliconrig.dev/docs/guides/cicd)

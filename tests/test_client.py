@@ -1,29 +1,29 @@
-"""Tests for flashbay.Client."""
+"""Tests for siliconrig.Client."""
 
 import os
 from unittest.mock import MagicMock, patch
 
 import pytest
 
-from flashbay.client import Client, _check
-from flashbay.exceptions import AuthError, SessionError
+from siliconrig.client import Client, _check
+from siliconrig.exceptions import AuthError, SessionError
 
 
 class TestClientInit:
     def test_requires_api_key(self):
         with patch.dict(os.environ, {}, clear=True):
-            os.environ.pop("FLASHBAY_API_KEY", None)
+            os.environ.pop("SRIG_API_KEY", None)
             with pytest.raises(AuthError, match="No API key"):
                 Client()
 
     def test_reads_env_var(self):
-        with patch.dict(os.environ, {"FLASHBAY_API_KEY": "sk_test_123"}):
+        with patch.dict(os.environ, {"SRIG_API_KEY": "sk_test_123"}):
             c = Client()
             assert c.api_key == "sk_test_123"
             c.close()
 
     def test_explicit_key_overrides_env(self):
-        with patch.dict(os.environ, {"FLASHBAY_API_KEY": "sk_env"}):
+        with patch.dict(os.environ, {"SRIG_API_KEY": "sk_env"}):
             c = Client(api_key="sk_explicit")
             assert c.api_key == "sk_explicit"
             c.close()

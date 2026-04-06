@@ -1,14 +1,14 @@
-"""Tests for flashbay.Board convenience wrapper."""
+"""Tests for siliconrig.Board convenience wrapper."""
 
 from unittest.mock import MagicMock, patch
 
 import pytest
 
-from flashbay.board import Board
+from siliconrig.board import Board
 
 
 class TestBoardContextManager:
-    @patch("flashbay.board.Client")
+    @patch("siliconrig.board.Client")
     def test_creates_session_and_flashes(self, MockClient):
         mock_client = MockClient.return_value
         mock_session = MagicMock()
@@ -23,7 +23,7 @@ class TestBoardContextManager:
 
         mock_client.close.assert_called_once()
 
-    @patch("flashbay.board.Client")
+    @patch("siliconrig.board.Client")
     def test_no_firmware_skips_flash(self, MockClient):
         mock_client = MockClient.return_value
         mock_session = MagicMock()
@@ -39,7 +39,7 @@ class TestBoardContextManager:
 
 
 class TestBoardProxies:
-    @patch("flashbay.board.Client")
+    @patch("siliconrig.board.Client")
     def test_send_proxies_to_serial(self, MockClient):
         mock_client = MockClient.return_value
         mock_session = MagicMock()

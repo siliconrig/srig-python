@@ -1,4 +1,4 @@
-"""Tests for flashbay.Serial."""
+"""Tests for siliconrig.Serial."""
 
 import json
 import threading
@@ -7,13 +7,13 @@ from unittest.mock import patch
 
 import pytest
 
-from flashbay.exceptions import SerialTimeout
-from flashbay.serial import Serial
+from siliconrig.exceptions import SerialTimeout
+from siliconrig.serial import Serial
 
 
 @pytest.fixture
 def serial_conn(fake_ws):
-    with patch("flashbay.serial.ws_sync.connect", return_value=fake_ws):
+    with patch("siliconrig.serial.ws_sync.connect", return_value=fake_ws):
         s = Serial("ws://localhost/serial", "sk_test")
         yield s, fake_ws
         s.close()

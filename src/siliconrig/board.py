@@ -4,8 +4,8 @@ from pathlib import Path
 from types import TracebackType
 from typing import Any, Self
 
-from flashbay.client import Client
-from flashbay.session import Session
+from siliconrig.client import Client
+from siliconrig.session import Session
 
 
 class Board:

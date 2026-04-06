@@ -6,8 +6,8 @@ from typing import Any
 
 import httpx
 
-from flashbay.exceptions import FlashError, SessionError
-from flashbay.serial import Serial
+from siliconrig.exceptions import FlashError, SessionError
+from siliconrig.serial import Serial
 
 _FLASH_POLL_INTERVAL = 0.1
 _FLASH_DEFAULT_TIMEOUT = 120.0

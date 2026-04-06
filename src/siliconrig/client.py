@@ -1,4 +1,4 @@
-"""flashbay API client."""
+"""siliconrig API client."""
 
 import os
 from collections.abc import Generator
@@ -7,21 +7,21 @@ from typing import Any
 
 import httpx
 
-from flashbay.exceptions import AuthError, SessionError
-from flashbay.session import Session
+from siliconrig.exceptions import AuthError, SessionError
+from siliconrig.session import Session
 
-DEFAULT_BASE_URL = "https://api.fbay.io"
+DEFAULT_BASE_URL = "https://api.srig.io"
 DEFAULT_TIMEOUT = 30.0
 
 
 class Client:
-    """Client for the flashbay REST API.
+    """Client for the siliconrig REST API.
 
     Args:
         api_key: API key (``key_...``). Falls back to
-            the ``FLASHBAY_API_KEY`` environment variable.
-        base_url: Coordinator base URL. Falls back to ``FLASHBAY_BASE_URL``
-            or ``https://api.fbay.io``.
+            the ``SRIG_API_KEY`` environment variable.
+        base_url: Coordinator base URL. Falls back to ``SRIG_BASE_URL``
+            or ``https://api.srig.io``.
         timeout: Default HTTP timeout in seconds.
     """
 
@@ -31,14 +31,14 @@ class Client:
         base_url: str | None = None,
         timeout: float = DEFAULT_TIMEOUT,
     ) -> None:
-        self.api_key = api_key or os.environ.get("FLASHBAY_API_KEY")
+        self.api_key = api_key or os.environ.get("SRIG_API_KEY")
         if not self.api_key:
             raise AuthError(
-                "No API key provided. Pass api_key= or set FLASHBAY_API_KEY."
+                "No API key provided. Pass api_key= or set SRIG_API_KEY."
             )
 
         self.base_url = (
-            base_url or os.environ.get("FLASHBAY_BASE_URL") or DEFAULT_BASE_URL
+            base_url or os.environ.get("SRIG_BASE_URL") or DEFAULT_BASE_URL
         ).rstrip("/")
 
         self._http = httpx.Client(

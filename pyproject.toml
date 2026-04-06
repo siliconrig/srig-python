@@ -3,9 +3,9 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "flashbay"
+name = "siliconrig"
 dynamic = ["version"]
-description = "Python SDK and pytest fixtures for flashbay hardware-in-the-loop testing"
+description = "Python SDK and pytest fixtures for siliconrig hardware-in-the-loop testing"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
@@ -33,18 +33,18 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://flashbay.dev"
-Documentation = "https://flashbay.dev/docs/guides/python-sdk"
-Repository = "https://github.com/flashbay-dev/fbay-python"
+Homepage = "https://siliconrig.dev"
+Documentation = "https://siliconrig.dev/docs/guides/python-sdk"
+Repository = "https://github.com/siliconrig/srig-python"
 
 [project.entry-points.pytest11]
-flashbay = "flashbay.plugin"
+siliconrig = "siliconrig.plugin"
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/flashbay"]
+packages = ["src/siliconrig"]
 
 [tool.ruff]
 target-version = "py310"
